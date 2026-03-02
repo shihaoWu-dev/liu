@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>我的留言网站</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1d4ed8);
+      color: #e5e7eb;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background: rgba(15, 23, 42, 0.95);
+      padding: 32px 40px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      max-width: 520px;
+      width: 90%;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 26px;
+    }
+    p.desc {
+      margin: 0 0 20px;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+    label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    input, textarea {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #4b5563;
+      background: #020617;
+      color: #e5e7eb;
+      padding: 8px 10px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 1px #1d4ed8;
+    }
+    .field {
+      margin-bottom: 14px;
+    }
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    button {
+      width: 100%;
+      margin-top: 4px;
+      padding: 10px 0;
+      border-radius: 999px;
+      border: none;
+      background: #2563eb;
+      color: #e5e7eb;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    .msg {
+      margin-top: 10px;
+      font-size: 13px;
+      min-height: 18px;
+    }
+    .msg.error {
+      color: #fca5a5;
+    }
+    .msg.success {
+      color: #6ee7b7;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>给我留言</h1>
+    <p class="desc">请留下你的姓名、电话和想说的话，我会尽快联系你。</p>
+
+    <form id="contact-form">
+      <div class="field">
+        <label for="name">姓名</label>
+        <input id="name" name="name" type="text" placeholder="请输入你的名字" />
+      </div>
+      <div class="field">
+        <label for="phone">电话</label>
+        <input id="phone" name="phone" type="tel" placeholder="请输入你的手机号" />
+      </div>
+      <div class="field">
+        <label for="message">留言内容</label>
+        <textarea id="message" name="message" placeholder="想和我说些什么呢？"></textarea>
+      </div>
+      <button type="submit">提交留言</button>
+      <div id="form-msg" class="msg"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('contact-form');
+    const msgBox = document.getElementById('form-msg');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault(); // 先阻止默认提交
+
+      const name = form.name.value.trim();
+      const phone = form.phone.value.trim();
+      const message = form.message.value.trim();
+
+      // 简单校验
+      if (!name || !phone || !message) {
+        msgBox.textContent = '请把姓名、电话和留言都填写完整。';
+        msgBox.className = 'msg error';
+        return;
+      }
+
+      // 简单手机号校验（11 位数字）
+      if (!/^\d{11}$/.test(phone)) {
+        msgBox.textContent = '请填写正确的 11 位手机号（只填数字）。';
+        msgBox.className = 'msg error';
+        return;
+      }
+
+      // 现在还没有真正发送到服务器，这里先模拟成功效果
+      msgBox.textContent = '留言已提交（当前只是本地模拟），下一步我们会让它真正发送到你的邮箱。';
+      msgBox.className = 'msg success';
+      form.reset();
+    });
+  </script>
+</body>
+</html>
